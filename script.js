@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* Animated stat counters */
-    const stats = document.querySelectorAll('.stat-number');
+    const stats = document.querySelectorAll('.stat-number[data-target]');
     const animateStat = (el) => {
         const target = parseInt(el.dataset.target, 10);
         const dur = 1600, start = performance.now();

@@ -420,7 +420,8 @@ img { max-width: 100%; display: block; }
 
 /* Stats */
 .stats-section { background: var(--ink); padding: 84px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; text-align: center; }
+.stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 40px; text-align: center; }
+.stat-word { font-size: clamp(2rem, 3.6vw, 2.8rem); }
 .stat-number { font-family: var(--font-display); font-size: clamp(2.6rem, 5vw, 3.6rem); font-weight: 500; color: var(--gold); line-height: 1; display: inline-block; }
 .stat-label { display: block; margin-top: 14px; font-size: 0.74rem; letter-spacing: 0.14em; color: var(--silver); text-transform: uppercase; }
 
@@ -552,4 +553,5 @@ img { max-width: 100%; display: block; }
     .menu-close { top: 22px; right: 24px; }
     .hero-eyebrow { font-size: 0.58rem; letter-spacing: 0.18em; padding: 0 12px; }
     .hero-tagline { font-size: 1.25rem; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
 }
