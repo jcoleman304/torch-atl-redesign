@@ -205,6 +205,8 @@ img { max-width: 100%; display: block; }
 .menu-overlay.active .menu-link:nth-child(4){ transition: all .5s .26s var(--ease); }
 .menu-overlay.active .menu-link:nth-child(5){ transition: all .5s .32s var(--ease); }
 .menu-overlay.active .menu-link:nth-child(6){ transition: all .5s .38s var(--ease); }
+.menu-overlay.active .menu-link:nth-child(7){ transition: all .5s .44s var(--ease); }
+.menu-overlay.active .menu-link:nth-child(8){ transition: all .5s .50s var(--ease); }
 .menu-link:hover { color: var(--gold); padding-left: 12px; }
 .menu-index { font-family: var(--font-body); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--gold-dark); font-weight: 500; }
 .menu-aside { border-left: 1px solid var(--line); padding-left: 48px; }
@@ -381,6 +383,31 @@ img { max-width: 100%; display: block; }
     margin-top: 44px; text-align: center; padding: 22px; font-size: 0.9rem; color: var(--gray);
     border: 1px solid rgba(212,175,55,0.18); background: rgba(212,175,55,0.04); font-weight: 300;
 }
+
+/* Uniform photo grids (Studios / Amenities) */
+.studios-section { background: var(--ink); }
+.amenities-section { background: var(--black); }
+.photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.photo-grid figure { position: relative; overflow: hidden; }
+.photo-grid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; transition: transform 1s var(--ease); display: block; }
+.photo-grid figure:hover img { transform: scale(1.05); }
+.photo-grid figure::after { content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(10,10,10,0.55), transparent 55%); opacity:0; transition: var(--transition); }
+.photo-grid figcaption { position:absolute; left:14px; bottom:12px; z-index:2; font-size:0.64rem; letter-spacing:0.2em; text-transform:uppercase; color:#fff; opacity:0; transform:translateY(8px); transition: var(--transition); text-shadow:0 2px 10px rgba(0,0,0,0.6); }
+.photo-grid figure:hover figcaption { opacity:1; transform:translateY(0); }
+.photo-grid figure:hover::after { opacity:1; }
+
+/* Masonry gallery */
+.gallery-section { background: var(--ink); }
+.gallery { column-count: 4; column-gap: 14px; }
+.gallery-item { break-inside: avoid; margin-bottom: 14px; position: relative; overflow: hidden; display: block; }
+.gallery-item img { width: 100%; display: block; transition: transform 1s var(--ease); }
+.gallery-item:hover img { transform: scale(1.04); }
+.gallery-item::after { content:''; position:absolute; inset:0; background:rgba(10,10,10,0); transition: var(--transition); }
+.gallery-item:hover::after { background:rgba(212,175,55,0.08); }
+
+@media (max-width: 1024px) { .photo-grid { grid-template-columns: repeat(2, 1fr); } .gallery { column-count: 3; } }
+@media (max-width: 768px) { .photo-grid { grid-template-columns: 1fr; } .gallery { column-count: 2; } }
+@media (max-width: 480px) { .gallery { column-count: 1; } }
 
 /* Full-bleed band */
 .band { position: relative; min-height: 78vh; display: flex; align-items: center; background-size: cover; background-position: center; background-attachment: fixed; }
