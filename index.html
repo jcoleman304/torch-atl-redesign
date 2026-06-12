@@ -100,7 +100,7 @@
                 <span class="title-atl">ATL</span>
             </h1>
             <p class="hero-tagline">Where Artists Feel At Home.</p>
-            <a href="#inquire" class="btn btn-outline">Book the Estate</a>
+            <a href="#inquire" class="btn btn-gold">Book the Estate</a>
         </div>
         <div class="hero-scroll"><span>Scroll</span><i></i></div>
     </section>
@@ -115,6 +115,7 @@
             <h2 class="display">Where Records<br>Get Made</h2>
             <p>You pull through the gate and the city disappears. The phone goes quiet. The only deadline is the one you set for yourself. By the second hour you've forgotten what building you're in — and that's the point.</p>
             <p>Torch ATL is a private estate in Atlanta for creatives who demand more than four walls and a console. No commercial building. No strangers. No shared hallways. Just the grounds, the rooms, and whatever you came here to make.</p>
+            <p>For artists, writers and producers, it's a place to disappear into the work — fully staffed, fully private, built around the session, not around the clock. For labels and publishers running camps, it's a turnkey creative setup without the logistics, the leaks, or the compromises.</p>
             <p class="split-emphasis">You don't book a room. You get the whole estate.</p>
             <a href="#estate" class="link-arrow">Explore the estate →</a>
         </div>
@@ -147,10 +148,23 @@
             <div class="estate-features">
                 <span>Control Room</span><span>Vocal Booth</span><span>Live Room</span><span>Creative Lounge</span><span>Full Kitchen</span><span>Gated Parking</span>
             </div>
-            <div class="coming-soon reveal">
-                <span class="eyebrow">Coming Soon</span>
-                <h3>The A Room</h3>
-                <p>A fully built-out, world-class A room that raises the ceiling on what's possible at the estate.</p>
+            <div class="aroom reveal">
+                <div class="aroom-media">
+                    <span class="aroom-tag">Coming Soon</span>
+                    <img src="images/g-22-116-studio-mood.jpg" alt="Future A Room studio" loading="lazy">
+                </div>
+                <div class="aroom-body">
+                    <span class="eyebrow">The A Room</span>
+                    <h3>A New Flagship Room</h3>
+                    <p>A fully built-out, world-class A room that raises the ceiling on what's possible at the estate. Be the first to know when it opens.</p>
+                    <form class="aroom-form" id="aroom-form" action="https://formsubmit.co/bookings@torchatl.com" method="POST" onsubmit="return handleAroomSignup(event)">
+                        <input type="hidden" name="_subject" value="A Room Waitlist — TORCH ATL">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="email" name="email" required placeholder="your@email.com" aria-label="Email">
+                        <button type="submit" class="btn btn-gold">Join the List</button>
+                    </form>
+                    <p class="aroom-note" id="aroom-note">You're on the list — we'll be in touch when The A Room opens.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -308,7 +322,7 @@
             <h2 class="display">A Creative Home<br>Base in Atlanta</h2>
             <p>Torch Development Partnerships are extended creative residency agreements for labels and management companies investing in active artist development.</p>
             <p>Stop coordinating separate studio time, hotel rooms, and logistics every time your roster comes through Atlanta. Torch gives your artists a home base — both studios, the suites, the full estate — on a priority access agreement built around your schedule.</p>
-            <a href="#inquire" class="btn btn-outline dark">Inquire About a Partnership</a>
+            <a href="#inquire" class="btn btn-gold">Inquire About a Partnership</a>
         </div>
     </section>
 
@@ -406,7 +420,7 @@
                     <p class="footer-tagline">Where Comfort Ignites Creativity</p>
                 </div>
                 <div class="footer-links">
-                    <a href="#about">About</a><a href="#estate">The Estate</a><a href="#suites">Suites</a><a href="#packages">Packages</a><a href="#partners">Partners</a><a href="#inquire">Book Now</a>
+                    <a href="#about">About</a><a href="#estate">The Estate</a><a href="#suites">Suites</a><a href="#studios">Studios</a><a href="#amenities">Amenities</a><a href="#packages">Packages</a><a href="#gallery">Gallery</a><a href="#partners">Partners</a><a href="#inquire">Book Now</a>
                 </div>
                 <div class="footer-contact">
                     <a href="mailto:bookings@torchatl.com">bookings@torchatl.com</a>
@@ -423,6 +437,14 @@
             </div>
         </div>
     </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+        <img id="lightbox-img" src="" alt="">
+        <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+    </div>
 
     <!-- Member Login Modal -->
     <div class="modal" id="login-modal">

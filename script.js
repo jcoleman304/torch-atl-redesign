@@ -88,6 +88,32 @@ document.addEventListener('DOMContentLoaded', () => {
         stats.forEach(s => s.textContent = parseInt(s.dataset.target, 10).toLocaleString('en-US'));
     }
 
+    /* Lightbox for gallery / photo grids / mosaic */
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    const lbItems = Array.from(document.querySelectorAll('.gallery-item img, .photo-grid img, .mosaic-item img'));
+    let lbIndex = 0;
+    const showLb = (i) => {
+        lbIndex = (i + lbItems.length) % lbItems.length;
+        lbImg.src = lbItems[lbIndex].src;
+        lbImg.alt = lbItems[lbIndex].alt || '';
+    };
+    const openLb = (i) => { showLb(i); lightbox.classList.add('active'); document.body.style.overflow = 'hidden'; };
+    const closeLb = () => { lightbox.classList.remove('active'); document.body.style.overflow = ''; };
+    lbItems.forEach((img, i) => img.addEventListener('click', () => openLb(i)));
+    if (lightbox) {
+        document.getElementById('lightbox-close').addEventListener('click', closeLb);
+        document.getElementById('lightbox-prev').addEventListener('click', (e) => { e.stopPropagation(); showLb(lbIndex - 1); });
+        document.getElementById('lightbox-next').addEventListener('click', (e) => { e.stopPropagation(); showLb(lbIndex + 1); });
+        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLb(); });
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLb();
+            else if (e.key === 'ArrowLeft') showLb(lbIndex - 1);
+            else if (e.key === 'ArrowRight') showLb(lbIndex + 1);
+        });
+    }
+
     /* Inquiry form — graceful note (FormSubmit handles POST natively) */
     const form = document.getElementById('inquire-form');
     if (form) {
@@ -113,4 +139,22 @@ function handleMemberLogin(e) {
     const err = document.getElementById('login-error');
     err.textContent = 'Member portal opens at launch. Contact bookings@torchatl.com for access.';
     err.classList.add('visible');
+}
+
+/* A Room waitlist signup */
+function handleAroomSignup(e) {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.querySelector('input[name="email"]').value;
+    const note = document.getElementById('aroom-note');
+    const btn = form.querySelector('button');
+    if (btn) { btn.textContent = 'Added'; btn.disabled = true; }
+    fetch('https://formsubmit.co/ajax/bookings@torchatl.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email: email, _subject: 'A Room Waitlist — TORCH ATL' })
+    }).catch(() => {});
+    if (note) note.classList.add('visible');
+    form.querySelector('input[name="email"]').style.display = 'none';
+    return false;
 }
