@@ -90,6 +90,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!track) return;
         const slides = Array.from(track.children);
         const n = slides.length;
+        // blurred fill behind each (contained) image so nothing is cropped
+        slides.forEach((s) => {
+            const im = s.querySelector('img');
+            if (im && !s.querySelector('.carousel-bg')) {
+                const bg = document.createElement('div');
+                bg.className = 'carousel-bg';
+                bg.style.backgroundImage = 'url("' + im.getAttribute('src') + '")';
+                s.insertBefore(bg, s.firstChild);
+            }
+        });
         const dotsWrap = car.querySelector('.carousel-dots');
         let idx = 0, timer = null;
         const delay = parseInt(car.dataset.autoplay, 10) || 0;
