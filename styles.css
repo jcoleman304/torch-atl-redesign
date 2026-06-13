@@ -521,6 +521,47 @@ img { max-width: 100%; display: block; }
 .form-group textarea { resize: vertical; min-height: 110px; }
 .form-note { font-size: 0.78rem; color: var(--gray); text-align: center; margin-top: 6px; }
 
+/* Request to Reserve — multi-step form */
+.rr-steps { display: flex; gap: 8px; margin-bottom: 28px; }
+.rr-stepitem { flex: 1; text-align: center; padding-bottom: 12px; border-bottom: 2px solid var(--line); transition: var(--transition); }
+.rr-stepitem.active { border-bottom-color: var(--gold); }
+.rr-stepitem.done { border-bottom-color: var(--gold-dark); }
+.rr-stepnum { font-family: var(--font-display); font-size: 1.1rem; color: var(--gray); }
+.rr-stepitem.active .rr-stepnum, .rr-stepitem.done .rr-stepnum { color: var(--gold); }
+.rr-steplabel { display: block; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray); margin-top: 4px; }
+.rr-stepitem.active .rr-steplabel { color: var(--cream); }
+.rr-step { display: none; flex-direction: column; gap: 18px; }
+.rr-step.active { display: flex; }
+.rr-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.rr-addon { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border: 1px solid var(--line); background: rgba(255,255,255,0.03); cursor: pointer; transition: var(--transition); }
+.rr-addon:hover { border-color: rgba(212,175,55,0.4); }
+.rr-addon input { width: 16px; height: 16px; accent-color: var(--gold); flex-shrink: 0; }
+.rr-addon span { font-size: 0.92rem; color: var(--cream); }
+.rr-toggle { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid var(--line); cursor: pointer; }
+.rr-toggle input { width: 16px; height: 16px; accent-color: var(--gold); }
+.rr-conditional { display: none; flex-direction: column; gap: 16px; }
+.rr-conditional.show { display: flex; }
+.rr-actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 8px; }
+.rr-back { background: none; border: 1px solid var(--line); color: var(--cream); padding: 14px 28px; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; transition: var(--transition); font-family: var(--font-body); }
+.rr-back:hover { border-color: var(--gold); color: var(--gold); }
+.rr-summary { border: 1px solid var(--line); padding: 22px 24px; }
+.rr-summary h4 { font-family: var(--font-body); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.rr-summary-row { display: flex; justify-content: space-between; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 0.9rem; }
+.rr-summary-row:last-child { border-bottom: none; }
+.rr-summary-row span:first-child { color: var(--gray); }
+.rr-summary-row span:last-child { color: var(--cream); text-align: right; }
+.rr-process { border: 1px solid rgba(212,175,55,0.25); background: rgba(212,175,55,0.04); padding: 22px 24px; }
+.rr-process h4 { font-family: var(--font-body); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.rr-process ol { list-style: none; counter-reset: rr; }
+.rr-process li { counter-increment: rr; position: relative; padding: 7px 0 7px 30px; font-size: 0.88rem; color: var(--cream); font-weight: 300; }
+.rr-process li::before { content: counter(rr, decimal-leading-zero); position: absolute; left: 0; top: 7px; font-family: var(--font-display); font-size: 0.8rem; color: var(--gold); }
+.rr-success { display: none; text-align: center; padding: 24px 8px; }
+.rr-success.show { display: block; }
+.rr-success-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--gold); color: var(--black); display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; }
+.rr-success h3 { font-family: var(--font-display); font-size: 1.6rem; color: var(--cream); margin-bottom: 12px; }
+.rr-success p { color: var(--silver); font-weight: 300; }
+@media (max-width: 600px) { .rr-row { grid-template-columns: 1fr; } .rr-steplabel { display: none; } }
+
 /* Footer */
 .footer { background: var(--black); padding: 80px 0 36px; border-top: 1px solid var(--line); }
 .footer-top { display: grid; grid-template-columns: 2fr 1.3fr 1.3fr; gap: 56px; margin-bottom: 56px; }

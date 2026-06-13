@@ -395,10 +395,10 @@
         <div class="container">
             <div class="inquire-grid">
                 <div class="inquire-content reveal">
-                    <span class="eyebrow">Book the Estate</span>
-                    <h2 class="display">Inquire About<br>the Estate</h2>
-                    <p>All bookings are by inquiry only. We review every request personally to ensure the right fit for the estate.</p>
-                    <p>Whether you're booking a day session, a multi-day camp, or exploring a development partnership — we'd love to hear from you.</p>
+                    <span class="eyebrow">Reserve the Estate</span>
+                    <h2 class="display">Request to<br>Reserve</h2>
+                    <p>No payment to request. Tell us your dates and what you're creating — we review every request personally to ensure the right fit for the estate.</p>
+                    <p>Once your request is accepted, you'll receive a tailored quote. Confirm it and we send deposit details, a secure pay link, and the estate agreement via DocuSign to lock your dates.</p>
                     <div class="inquire-info">
                         <div class="info-item">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -415,33 +415,100 @@
                     </div>
                 </div>
                 <div class="inquire-form-container reveal">
-                    <form class="inquire-form" id="inquire-form" action="https://formsubmit.co/bookings@torchatl.com" method="POST">
-                        <input type="hidden" name="_subject" value="New Estate Inquiry — TORCH ATL">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_template" value="table">
-                        <input type="text" name="_honey" style="display:none">
-                        <div class="form-group"><label>Full Name</label><input type="text" name="name" required placeholder="Your name"></div>
-                        <div class="form-group"><label>Email</label><input type="email" name="email" required placeholder="your@email.com"></div>
-                        <div class="form-group"><label>Phone</label><input type="tel" name="phone" placeholder="(555) 555-5555"></div>
-                        <div class="form-group">
-                            <label>Inquiry Type</label>
-                            <select name="role" required>
-                                <option value="">Select inquiry type</option>
-                                <option value="day-session">Day Session</option>
-                                <option value="full-estate">Full Estate Buyout</option>
-                                <option value="camp">Recording Camp (3-7 days)</option>
-                                <option value="event">Private Event / Listening Party</option>
-                                <option value="retreat">Creative Retreat</option>
-                                <option value="partnership">Label Off-Site / Partnership</option>
-                                <option value="photo-video">Photo &amp; Video Shoot</option>
-                                <option value="podcast">Podcast Session</option>
-                                <option value="other">Other</option>
-                            </select>
+                    <div class="rr-steps">
+                        <div class="rr-stepitem active" data-step="1"><span class="rr-stepnum">01</span><span class="rr-steplabel">Reservation</span></div>
+                        <div class="rr-stepitem" data-step="2"><span class="rr-stepnum">02</span><span class="rr-steplabel">Your Details</span></div>
+                        <div class="rr-stepitem" data-step="3"><span class="rr-stepnum">03</span><span class="rr-steplabel">Review</span></div>
+                    </div>
+                    <form class="inquire-form" id="reserve-form">
+                        <!-- Step 1 -->
+                        <div class="rr-step active" data-step="1">
+                            <div class="form-group">
+                                <label>Reservation Type</label>
+                                <select name="session_type" id="rr-type" required>
+                                    <option value="">Select a reservation type</option>
+                                    <option value="Half-Day Session">Half-Day Session (7 hours)</option>
+                                    <option value="Full-Day Session">Full-Day Session (12 hours)</option>
+                                    <option value="Full Estate Buyout">Full Estate Buyout</option>
+                                    <option value="Recording Camp">Recording Camp (multi-day)</option>
+                                    <option value="Private Event">Private Event / Listening Party</option>
+                                    <option value="Creative Retreat">Creative Retreat</option>
+                                    <option value="Photo &amp; Video Shoot">Photo &amp; Video Shoot</option>
+                                    <option value="Podcast Session">Podcast Session</option>
+                                    <option value="Label Off-Site / Partnership">Label Off-Site / Partnership</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="rr-room-group">
+                                <label>Room</label>
+                                <select name="room">
+                                    <option value="">No preference</option>
+                                    <option value="B Room">B Room</option>
+                                    <option value="C Room">C Room</option>
+                                    <option value="Both Rooms">Both Rooms</option>
+                                </select>
+                            </div>
+                            <div class="rr-row">
+                                <div class="form-group"><label>Preferred Start Date</label><input type="date" name="start_date" required></div>
+                                <div class="form-group"><label>End Date</label><input type="date" name="end_date"></div>
+                            </div>
+                            <div class="rr-row">
+                                <div class="form-group"><label>Number of Days</label><input type="number" name="days" min="1" max="60" value="1"></div>
+                                <div class="form-group"><label>Number of Guests</label><input type="number" name="guests" min="1" max="60" value="1"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Add-ons</label>
+                                <label class="rr-addon"><input type="checkbox" name="addon_engineer"><span>In-House Engineer</span></label>
+                                <label class="rr-addon"><input type="checkbox" name="addon_chef"><span>In-House Chef</span></label>
+                                <label class="rr-addon"><input type="checkbox" name="addon_catering"><span>Event Catering</span></label>
+                                <label class="rr-addon"><input type="checkbox" name="addon_photo"><span>Photoshoot Wall Access</span></label>
+                                <label class="rr-addon"><input type="checkbox" name="addon_transfer"><span>Airport Transfers</span></label>
+                            </div>
+                            <div class="rr-actions"><span></span><button type="button" class="btn btn-gold" data-next="2">Continue</button></div>
                         </div>
-                        <div class="form-group"><label>Tell us about the project</label><textarea name="message" rows="4" placeholder="Dates, group size, and what you're working on..."></textarea></div>
-                        <button type="submit" class="btn btn-gold btn-full">Submit Inquiry</button>
-                        <p class="form-note">We review every inquiry personally and typically respond within 24 hours.</p>
+                        <!-- Step 2 -->
+                        <div class="rr-step" data-step="2">
+                            <div class="rr-row">
+                                <div class="form-group"><label>Full Name *</label><input type="text" name="name" placeholder="Your name"></div>
+                                <div class="form-group"><label>Phone *</label><input type="tel" name="phone" placeholder="(555) 555-5555"></div>
+                            </div>
+                            <div class="form-group"><label>Email *</label><input type="email" name="email" placeholder="you@example.com"></div>
+                            <div class="rr-row">
+                                <div class="form-group"><label>Artist / Project Name</label><input type="text" name="artist" placeholder="Artist or project"></div>
+                                <div class="form-group"><label>Company</label><input type="text" name="company" placeholder="Company or label"></div>
+                            </div>
+                            <label class="rr-toggle"><input type="checkbox" id="rr-label-toggle" name="is_label_booking"><span>This is a label / management booking</span></label>
+                            <div class="rr-conditional" id="rr-label-fields">
+                                <div class="form-group"><label>Label Name</label><input type="text" name="label_name" placeholder="Label or company"></div>
+                                <div class="rr-row">
+                                    <div class="form-group"><label>A&amp;R Contact</label><input type="text" name="ar_contact" placeholder="A&amp;R name"></div>
+                                    <div class="form-group"><label>A&amp;R Email</label><input type="email" name="ar_email" placeholder="ar@label.com"></div>
+                                </div>
+                                <div class="form-group"><label>PO Number (if available)</label><input type="text" name="po_number" placeholder="Purchase order number"></div>
+                            </div>
+                            <div class="form-group"><label>Tell us about the project</label><textarea name="message" rows="3" placeholder="What you're creating, special requests, equipment needs…"></textarea></div>
+                            <div class="rr-actions"><button type="button" class="rr-back" data-back="1">Back</button><button type="button" class="btn btn-gold" data-next="3">Review Request</button></div>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="rr-step" data-step="3">
+                            <div class="rr-summary" id="rr-summary"></div>
+                            <div class="rr-process">
+                                <h4>What Happens Next</h4>
+                                <ol>
+                                    <li>We review and accept your request.</li>
+                                    <li>You receive a tailored quote for your reservation.</li>
+                                    <li>Confirm the quote — we send deposit details and a secure pay link.</li>
+                                    <li>Sign the estate agreement via DocuSign and your dates are locked.</li>
+                                </ol>
+                            </div>
+                            <div class="rr-actions"><button type="button" class="rr-back" data-back="2">Back</button><button type="submit" class="btn btn-gold" id="rr-submit">Submit Reservation Request</button></div>
+                        </div>
                     </form>
+                    <div class="rr-success" id="rr-success">
+                        <div class="rr-success-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <h3>Request Received</h3>
+                        <p>Thank you — we review every request personally and typically respond within 24 hours with next steps and a tailored quote.</p>
+                    </div>
+                    <p class="form-note">No payment is taken to request. Pricing follows once your request is accepted.</p>
                 </div>
             </div>
         </div>

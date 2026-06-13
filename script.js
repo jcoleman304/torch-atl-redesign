@@ -198,20 +198,86 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* Use-case tiles preselect the inquiry type */
-    const roleSelect = document.querySelector('#inquire-form select[name="role"]');
+    /* Request to Reserve — multi-step form */
+    const rform = document.getElementById('reserve-form');
+    const rrType = document.getElementById('rr-type');
+    const escapeHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    /* Use-case tiles preselect the reservation type */
+    const TYPE_MAP = { camp: 'Recording Camp', event: 'Private Event', retreat: 'Creative Retreat', partnership: 'Label Off-Site / Partnership', 'photo-video': 'Photo & Video Shoot', podcast: 'Podcast Session' };
     document.querySelectorAll('.usecase[data-inquiry]').forEach((tile) => {
         tile.addEventListener('click', () => {
-            if (roleSelect) roleSelect.value = tile.dataset.inquiry;
+            if (rrType && TYPE_MAP[tile.dataset.inquiry]) { rrType.value = TYPE_MAP[tile.dataset.inquiry]; rrType.dispatchEvent(new Event('change')); }
         });
     });
 
-    /* Inquiry form — graceful note (FormSubmit handles POST natively) */
-    const form = document.getElementById('inquire-form');
-    if (form) {
-        form.addEventListener('submit', () => {
-            const btn = form.querySelector('button[type="submit"]');
-            if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
+    if (rform) {
+        const stepItems = Array.from(document.querySelectorAll('.rr-stepitem'));
+        const steps = Array.from(rform.querySelectorAll('.rr-step'));
+        const roomGroup = document.getElementById('rr-room-group');
+        const showStep = (n) => {
+            steps.forEach((s) => s.classList.toggle('active', s.dataset.step == n));
+            stepItems.forEach((it) => { const d = +it.dataset.step; it.classList.toggle('active', d == n); it.classList.toggle('done', d < n); });
+            const top = document.getElementById('inquire'); if (top) top.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+        const validate = (n) => {
+            const reqs = n == 1 ? ['session_type', 'start_date'] : n == 2 ? ['name', 'phone', 'email'] : [];
+            let ok = true;
+            reqs.forEach((nm) => { const f = rform.elements[nm]; if (f) { const bad = !f.value.trim(); f.style.borderColor = bad ? '#ff5555' : ''; if (bad) ok = false; } });
+            return ok;
+        };
+        if (rrType && roomGroup) {
+            const updRoom = () => { roomGroup.style.display = /Half-Day|Full-Day/.test(rrType.value) ? '' : 'none'; };
+            rrType.addEventListener('change', updRoom); updRoom();
+        }
+        const lblToggle = document.getElementById('rr-label-toggle');
+        const lblFields = document.getElementById('rr-label-fields');
+        if (lblToggle && lblFields) lblToggle.addEventListener('change', () => lblFields.classList.toggle('show', lblToggle.checked));
+
+        const buildSummary = () => {
+            const g = (nm) => { const f = rform.elements[nm]; return f ? f.value : ''; };
+            const addons = [];
+            [['addon_engineer', 'Engineer'], ['addon_chef', 'Chef'], ['addon_catering', 'Catering'], ['addon_photo', 'Photo wall'], ['addon_transfer', 'Transfers']]
+                .forEach(([nm, label]) => { if (rform.elements[nm] && rform.elements[nm].checked) addons.push(label); });
+            const rows = [
+                ['Reservation', g('session_type')],
+                (roomGroup.style.display !== 'none' && g('room')) ? ['Room', g('room')] : null,
+                ['Dates', g('start_date') + (g('end_date') ? ' → ' + g('end_date') : '')],
+                ['Days / Guests', g('days') + ' day(s) · ' + g('guests') + ' guest(s)'],
+                addons.length ? ['Add-ons', addons.join(', ')] : null,
+                ['Name', g('name')],
+                ['Contact', [g('email'), g('phone')].filter(Boolean).join(' · ')],
+                (g('label_name') || g('company')) ? ['Company', g('label_name') || g('company')] : null,
+            ].filter(Boolean);
+            document.getElementById('rr-summary').innerHTML = '<h4>Your Request</h4>' +
+                rows.map((r) => '<div class="rr-summary-row"><span>' + r[0] + '</span><span>' + escapeHtml(r[1] || '—') + '</span></div>').join('');
+        };
+
+        rform.querySelectorAll('[data-next]').forEach((b) => b.addEventListener('click', () => {
+            const cur = +b.closest('.rr-step').dataset.step;
+            if (!validate(cur)) return;
+            const next = +b.dataset.next;
+            if (next == 3) buildSummary();
+            showStep(next);
+        }));
+        rform.querySelectorAll('[data-back]').forEach((b) => b.addEventListener('click', () => showStep(+b.dataset.back)));
+
+        rform.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!validate(1)) { showStep(1); return; }
+            if (!validate(2)) { showStep(2); return; }
+            const btn = document.getElementById('rr-submit');
+            btn.textContent = 'Submitting…'; btn.disabled = true;
+            const data = {};
+            Array.from(rform.elements).forEach((el) => { if (el.name) data[el.name] = el.type === 'checkbox' ? (el.checked ? 'Yes' : 'No') : el.value; });
+            data._subject = 'New Reservation Request — TORCH ATL';
+            fetch('https://formsubmit.co/ajax/bookings@torchatl.com', {
+                method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data)
+            }).catch(() => {}).finally(() => {
+                rform.style.display = 'none';
+                const st = document.querySelector('.rr-steps'); if (st) st.style.display = 'none';
+                document.getElementById('rr-success').classList.add('show');
+            });
         });
     }
 });
