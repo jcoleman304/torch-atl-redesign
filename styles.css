@@ -142,22 +142,18 @@ img { max-width: 100%; display: block; }
 }
 .nav-burger {
     justify-self: start;
-    display: flex; align-items: center; gap: 12px;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 7px;
     background: none; border: none; cursor: pointer; padding: 6px 0;
     color: var(--white);
 }
 .nav-burger span {
-    display: block; width: 26px; height: 1.5px; background: var(--white);
+    display: block; height: 2px; background: var(--white);
     transition: var(--transition);
 }
-.nav-burger span + span { margin-top: 6px; }
-.nav-burger em {
-    font-style: normal; font-size: 0.66rem; letter-spacing: 0.28em;
-    text-transform: uppercase; color: var(--white);
-    display: inline-block; margin-left: 4px;
-}
+.nav-burger span:nth-child(1) { width: 32px; }
+.nav-burger span:nth-child(2) { width: 24px; }
 .nav-burger:hover span { background: var(--gold); }
-.nav-burger:hover em { color: var(--gold); }
+.nav-burger:hover span:nth-child(2) { width: 32px; }
 .nav-logo { justify-self: center; display: flex; flex-direction: column; align-items: center; gap: 3px; }
 .nav-logo .logo-torch { font-size: 1.5rem; line-height: 1; }
 .nav-logo .logo-atl { font-size: 0.62rem; }
@@ -557,7 +553,6 @@ img { max-width: 100%; display: block; }
 }
 @media (max-width: 768px) {
     .container { padding: 0 22px; }
-    .nav-burger em { display: none; }
     .nav-book { padding: 9px 18px; font-size: 0.62rem; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 36px; }
     .tiers { grid-template-columns: 1fr; }
