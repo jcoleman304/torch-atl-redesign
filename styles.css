@@ -424,7 +424,15 @@ img { max-width: 100%; display: block; }
 .carousel-dots { display:flex; justify-content:center; flex-wrap:wrap; gap:8px; margin-top:22px; }
 .carousel-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.25); border:none; cursor:pointer; transition:var(--transition); padding:0; }
 .carousel-dot.active { background:var(--gold); width:22px; border-radius:4px; }
-@media (max-width: 768px) { .carousel-slide { height: clamp(300px, 58vh, 480px); } .carousel-btn { width:40px; height:40px; } .carousel-prev { left:10px; } .carousel-next { right:10px; } }
+@media (max-width: 768px) {
+    .carousel-slide { height: clamp(300px, 58vh, 460px); }
+    .carousel-track { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .carousel-track::-webkit-scrollbar { display: none; }
+    .carousel-slide { min-width: 86%; scroll-snap-align: center; }
+    .carousel-slide + .carousel-slide { margin-left: 10px; }
+    .carousel-btn { display: none; }
+    .carousel-dots { margin-top: 16px; }
+}
 
 /* Crossfade media (split sections) */
 .media-fade { position:absolute; inset:0; }

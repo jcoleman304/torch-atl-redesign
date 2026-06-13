@@ -101,7 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         const dotsWrap = car.querySelector('.carousel-dots');
-        let idx = 0, timer = null;
+        const mq = window.matchMedia('(max-width: 768px)');
+        let idx = 0, timer = null, scrollRAF = null;
         const delay = parseInt(car.dataset.autoplay, 10) || 0;
         const dots = [];
         if (dotsWrap) {
@@ -109,32 +110,54 @@ document.addEventListener('DOMContentLoaded', () => {
                 const b = document.createElement('button');
                 b.className = 'carousel-dot' + (i === 0 ? ' active' : '');
                 b.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-                b.addEventListener('click', () => { go(i); restart(); });
+                b.addEventListener('click', () => { goTo(i); restart(); });
                 dotsWrap.appendChild(b);
                 dots.push(b);
             });
         }
-        function go(i) {
-            idx = (i + n) % n;
-            track.style.transform = 'translateX(-' + (idx * 100) + '%)';
-            dots.forEach((d, j) => d.classList.toggle('active', j === idx));
+        function setActive(i) { idx = (i + n) % n; dots.forEach((d, j) => d.classList.toggle('active', j === idx)); }
+        function goTo(i) {
+            setActive(i);
+            if (mq.matches) {
+                const s = slides[idx];
+                track.scrollTo({ left: s.offsetLeft - (track.clientWidth - s.clientWidth) / 2, behavior: 'smooth' });
+            } else {
+                track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+            }
         }
-        function play() { if (delay && n > 1) timer = setInterval(() => go(idx + 1), delay); }
+        function play() { if (delay && n > 1 && !mq.matches) timer = setInterval(() => goTo(idx + 1), delay); }
         function stop() { clearInterval(timer); }
         function restart() { stop(); play(); }
-        car.querySelector('.carousel-prev')?.addEventListener('click', () => { go(idx - 1); restart(); });
-        car.querySelector('.carousel-next')?.addEventListener('click', () => { go(idx + 1); restart(); });
+        car.querySelector('.carousel-prev')?.addEventListener('click', () => { goTo(idx - 1); restart(); });
+        car.querySelector('.carousel-next')?.addEventListener('click', () => { goTo(idx + 1); restart(); });
         car.addEventListener('mouseenter', stop);
         car.addEventListener('mouseleave', play);
+        // desktop-only swipe (mobile uses native scroll-snap)
         let x0 = null;
-        track.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; stop(); }, { passive: true });
+        track.addEventListener('touchstart', (e) => { if (mq.matches) return; x0 = e.touches[0].clientX; stop(); }, { passive: true });
         track.addEventListener('touchend', (e) => {
-            if (x0 === null) return;
+            if (mq.matches || x0 === null) return;
             const dx = e.changedTouches[0].clientX - x0;
-            if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1));
+            if (Math.abs(dx) > 40) goTo(idx + (dx < 0 ? 1 : -1));
             x0 = null; play();
         }, { passive: true });
-        play();
+        // mobile: keep dots in sync with native scroll position
+        track.addEventListener('scroll', () => {
+            if (!mq.matches || scrollRAF) return;
+            scrollRAF = requestAnimationFrame(() => {
+                scrollRAF = null;
+                const step = slides[0].offsetWidth + 10;
+                setActive(Math.round(track.scrollLeft / step));
+            });
+        }, { passive: true });
+        // switch cleanly between desktop transform mode and mobile scroll mode
+        const applyMode = () => {
+            stop();
+            if (mq.matches) { track.style.transform = ''; }
+            else { track.scrollLeft = 0; goTo(idx); play(); }
+        };
+        mq.addEventListener('change', applyMode);
+        if (!mq.matches) play();
     });
 
     /* Crossfade media (split sections) */
