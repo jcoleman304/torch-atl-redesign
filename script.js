@@ -175,6 +175,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /* Use-case tiles preselect the inquiry type */
+    const roleSelect = document.querySelector('#inquire-form select[name="role"]');
+    document.querySelectorAll('.usecase[data-inquiry]').forEach((tile) => {
+        tile.addEventListener('click', () => {
+            if (roleSelect) roleSelect.value = tile.dataset.inquiry;
+        });
+    });
+
     /* Inquiry form — graceful note (FormSubmit handles POST natively) */
     const form = document.getElementById('inquire-form');
     if (form) {
