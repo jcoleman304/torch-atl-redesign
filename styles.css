@@ -440,6 +440,12 @@ img { max-width: 100%; display: block; }
 .media-fade img.is-active { opacity:1; }
 .split:hover .media-fade img.is-active { transform:scale(1.04); }
 
+/* Guest Suites (with boutique details merged) */
+.suites-section { background: var(--ink); }
+.suites-section .split { min-height: 72vh; }
+.suite-details { padding: 60px 0 100px; }
+.suite-details-label { text-align: center; font-size: 0.7rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 30px; }
+
 /* Reservation process steps */
 .reserve-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--line); }
 .rstep-num { font-family: var(--font-display); font-size: 1.6rem; color: var(--gold); display: block; margin-bottom: 12px; }
