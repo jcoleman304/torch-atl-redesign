@@ -355,7 +355,7 @@ img { max-width: 100%; display: block; }
 
 /* Packages */
 .packages-section { background: var(--black); }
-.tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.tiers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .tier {
     background: var(--panel); border: 1px solid var(--line);
     padding: 44px 34px; transition: var(--transition);
@@ -577,6 +577,7 @@ img { max-width: 100%; display: block; }
     .split-media { min-height: 60vh; }
     .mosaic { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 220px; }
     .inquire-grid { grid-template-columns: 1fr; gap: 48px; }
+    .tiers { grid-template-columns: repeat(2, 1fr); }
     .footer-top { grid-template-columns: 1fr 1fr; }
     .menu-grid { grid-template-columns: 1fr; gap: 40px; }
     .menu-aside { border-left: none; border-top: 1px solid var(--line); padding-left: 0; padding-top: 32px; }
