@@ -446,6 +446,16 @@ img { max-width: 100%; display: block; }
 .suite-details { padding: 60px 0 100px; }
 .suite-details-label { text-align: center; font-size: 0.7rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 30px; }
 
+/* Amenity feature columns */
+.amenity-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--line); }
+.amenity-col h4 { font-family: var(--font-body); font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.amenity-col ul { list-style: none; }
+.amenity-col li { position: relative; padding: 8px 0 8px 22px; font-size: 0.9rem; color: var(--cream); font-weight: 300; line-height: 1.45; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.amenity-col li:last-child { border-bottom: none; }
+.amenity-col li::before { content: '✦'; position: absolute; left: 0; top: 9px; color: var(--gold); font-size: 0.7rem; }
+@media (max-width: 900px) { .amenity-cols { grid-template-columns: repeat(2, 1fr); gap: 28px 32px; } }
+@media (max-width: 520px) { .amenity-cols { grid-template-columns: 1fr; } }
+
 /* Reservation process steps */
 .reserve-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--line); }
 .rstep-num { font-family: var(--font-display); font-size: 1.6rem; color: var(--gold); display: block; margin-bottom: 12px; }
