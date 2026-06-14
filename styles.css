@@ -473,7 +473,7 @@ img { max-width: 100%; display: block; }
 
 /* Use-case grid */
 .usecase-section { background: var(--black); }
-.usecase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.usecase-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 .usecase { position: relative; overflow: hidden; min-height: 300px; display: flex; align-items: flex-end; }
 .usecase img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
 .usecase:hover img { transform: scale(1.06); }
