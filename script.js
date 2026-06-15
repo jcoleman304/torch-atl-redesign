@@ -254,9 +254,17 @@ document.addEventListener('DOMContentLoaded', () => {
             reqs.forEach((nm) => { const f = rform.elements[nm]; if (f) { const bad = !f.value.trim(); f.style.borderColor = bad ? '#ff5555' : ''; if (bad) ok = false; } });
             return ok;
         };
-        if (rrPurpose && roomGroup) {
-            const updRoom = () => { roomGroup.style.display = (rrPurpose.value === 'Record / Write') ? '' : 'none'; };
-            rrPurpose.addEventListener('change', updRoom); updRoom();
+        const eventHours = document.getElementById('rr-event-hours');
+        if (rrPurpose) {
+            const onPurpose = () => {
+                if (roomGroup) roomGroup.style.display = (rrPurpose.value === 'Record / Write') ? '' : 'none';
+                if (eventHours) {
+                    const isEvent = rrPurpose.value === 'Host an Event';
+                    eventHours.style.display = isEvent ? '' : 'none';
+                    if (isEvent && rrDuration && !rrDuration.value) rrDuration.value = 'Single Day';
+                }
+            };
+            rrPurpose.addEventListener('change', onPurpose); onPurpose();
         }
         const lblToggle = document.getElementById('rr-label-toggle');
         const lblFields = document.getElementById('rr-label-fields');
@@ -284,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const rows = [
                 ['Here to', g('purpose')],
                 ['Duration', g('duration')],
+                g('event_hours') ? ['Event hours', g('event_hours')] : null,
                 (roomGroup.style.display !== 'none' && g('room')) ? ['Room', g('room')] : null,
                 ['Dates', g('start_date') + (g('end_date') ? ' → ' + g('end_date') : '')],
                 ['Days / Guests', g('days') + ' day(s) · ' + g('guests') + ' guest(s)'],
