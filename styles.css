@@ -482,6 +482,9 @@ img { max-width: 100%; display: block; }
 
 /* Studio gear */
 .gear { margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--line); }
+.gear-credential { text-align: center; max-width: 760px; margin: 0 auto; font-family: var(--font-serif); font-style: italic; font-size: clamp(1.25rem, 2.6vw, 1.7rem); color: var(--cream); line-height: 1.5; }
+.gear-rider { text-align: center; margin-top: 18px; font-size: 0.8rem; letter-spacing: 0.04em; color: var(--gray); }
+.gear-rider a { color: var(--gold); }
 .vocal-chain { text-align: center; margin-bottom: 48px; }
 .chain-label { display: block; font-size: 0.68rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
 .chain-flow { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 14px; font-family: var(--font-display); font-size: clamp(1.05rem, 2.3vw, 1.6rem); color: var(--cream); }
