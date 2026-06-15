@@ -487,6 +487,11 @@ img { max-width: 100%; display: block; }
 .usecase-body h3 { font-family: var(--font-display); font-size: 1.35rem; color: var(--white); margin-bottom: 8px; }
 .usecase-body p { font-size: 0.88rem; color: rgba(245,240,232,0.78); font-weight: 300; line-height: 1.55; }
 .usecase-body span { display: inline-block; margin-top: 12px; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+.usecase-note { text-align: center; margin-top: 36px; font-size: 0.95rem; color: var(--silver); font-weight: 300; }
+.usecase-note strong { color: var(--cream); font-weight: 500; }
+.usecase-note a, .rr-addon-note a { color: var(--gold); }
+.usecase-note a:hover, .rr-addon-note a:hover { color: var(--gold-light); }
+.rr-addon-note { font-size: 0.76rem; color: var(--gray); margin: 2px 0 4px 4px; }
 @media (max-width: 1024px) { .reserve-steps { grid-template-columns: repeat(2, 1fr); gap: 32px; } .usecase-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { .reserve-steps { grid-template-columns: 1fr; } .usecase-grid { grid-template-columns: 1fr; } .sp-names span:not(:last-child)::after { margin-left: 18px; } }
 
