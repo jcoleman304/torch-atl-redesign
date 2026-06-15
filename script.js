@@ -259,9 +259,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const onPurpose = () => {
                 if (roomGroup) roomGroup.style.display = (rrPurpose.value === 'Record / Write') ? '' : 'none';
                 if (eventHours) {
-                    const isEvent = rrPurpose.value === 'Host an Event';
-                    eventHours.style.display = isEvent ? '' : 'none';
-                    if (isEvent && rrDuration && !rrDuration.value) rrDuration.value = 'Single Day';
+                    const p = rrPurpose.value;
+                    const needsHours = p === 'Host an Event' || p === 'Shoot (Photo / Video)';
+                    eventHours.style.display = needsHours ? '' : 'none';
+                    if (needsHours && rrDuration && !rrDuration.value) rrDuration.value = 'Single Day';
+                    const lbl = eventHours.querySelector('label');
+                    const inp = eventHours.querySelector('input');
+                    if (p === 'Shoot (Photo / Video)') { if (lbl) lbl.textContent = 'Shoot Length / Hours'; if (inp) inp.placeholder = 'e.g. 4 hours, or 10 AM – 4 PM'; }
+                    else if (p === 'Host an Event') { if (lbl) lbl.textContent = 'Event Hours'; if (inp) inp.placeholder = 'e.g. 7:00 PM – 12:00 AM'; }
                 }
             };
             rrPurpose.addEventListener('change', onPurpose); onPurpose();
@@ -292,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const rows = [
                 ['Here to', g('purpose')],
                 ['Duration', g('duration')],
-                g('event_hours') ? ['Event hours', g('event_hours')] : null,
+                g('event_hours') ? ['Hours', g('event_hours')] : null,
                 (roomGroup.style.display !== 'none' && g('room')) ? ['Room', g('room')] : null,
                 ['Dates', g('start_date') + (g('end_date') ? ' → ' + g('end_date') : '')],
                 ['Days / Guests', g('days') + ' day(s) · ' + g('guests') + ' guest(s)'],
