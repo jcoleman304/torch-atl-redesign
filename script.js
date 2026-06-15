@@ -253,6 +253,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const lblFields = document.getElementById('rr-label-fields');
         if (lblToggle && lblFields) lblToggle.addEventListener('change', () => lblFields.classList.toggle('show', lblToggle.checked));
 
+        // Auto-calculate number of days from the selected dates
+        const startEl = rform.elements['start_date'];
+        const endEl = rform.elements['end_date'];
+        const daysEl = rform.elements['days'];
+        if (startEl && endEl && daysEl) {
+            const updDays = () => {
+                if (!startEl.value || !endEl.value) return;
+                const diff = Math.round((new Date(endEl.value) - new Date(startEl.value)) / 86400000);
+                if (diff >= 0) daysEl.value = Math.max(1, diff);
+            };
+            startEl.addEventListener('change', () => { if (startEl.value) endEl.min = startEl.value; updDays(); });
+            endEl.addEventListener('change', updDays);
+        }
+
         const buildSummary = () => {
             const g = (nm) => { const f = rform.elements[nm]; return f ? f.value : ''; };
             const addons = [];
