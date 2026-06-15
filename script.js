@@ -219,14 +219,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* Request to Reserve — multi-step form */
     const rform = document.getElementById('reserve-form');
-    const rrType = document.getElementById('rr-type');
+    const rrPurpose = document.getElementById('rr-purpose');
+    const rrDuration = document.getElementById('rr-duration');
     const escapeHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-    /* Use-case tiles preselect the reservation type */
-    const TYPE_MAP = { camp: 'Recording Camp', event: 'Private Event', retreat: 'Creative Retreat', partnership: 'Label Off-Site / Partnership', 'photo-video': 'Photo & Video Shoot', podcast: 'Podcast Session' };
+    /* Use-case tiles preselect purpose (and duration where it implies one) */
+    const TILE_MAP = {
+        camp: { purpose: 'Record / Write', duration: 'Multi-Day (2–7 days)' },
+        event: { purpose: 'Host an Event' },
+        'photo-video': { purpose: 'Shoot (Photo / Video)' },
+        podcast: { purpose: 'Other' }
+    };
     document.querySelectorAll('.usecase[data-inquiry]').forEach((tile) => {
         tile.addEventListener('click', () => {
-            if (rrType && TYPE_MAP[tile.dataset.inquiry]) { rrType.value = TYPE_MAP[tile.dataset.inquiry]; rrType.dispatchEvent(new Event('change')); }
+            const m = TILE_MAP[tile.dataset.inquiry];
+            if (!m) return;
+            if (rrPurpose && m.purpose) { rrPurpose.value = m.purpose; rrPurpose.dispatchEvent(new Event('change')); }
+            if (rrDuration && m.duration) rrDuration.value = m.duration;
         });
     });
 
@@ -240,14 +249,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const top = document.getElementById('inquire'); if (top) top.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
         const validate = (n) => {
-            const reqs = n == 1 ? ['session_type', 'start_date'] : n == 2 ? ['name', 'phone', 'email'] : [];
+            const reqs = n == 1 ? ['purpose', 'duration', 'start_date'] : n == 2 ? ['name', 'phone', 'email'] : [];
             let ok = true;
             reqs.forEach((nm) => { const f = rform.elements[nm]; if (f) { const bad = !f.value.trim(); f.style.borderColor = bad ? '#ff5555' : ''; if (bad) ok = false; } });
             return ok;
         };
-        if (rrType && roomGroup) {
-            const updRoom = () => { roomGroup.style.display = /Day Session|Full Day/.test(rrType.value) ? '' : 'none'; };
-            rrType.addEventListener('change', updRoom); updRoom();
+        if (rrPurpose && roomGroup) {
+            const updRoom = () => { roomGroup.style.display = (rrPurpose.value === 'Record / Write') ? '' : 'none'; };
+            rrPurpose.addEventListener('change', updRoom); updRoom();
         }
         const lblToggle = document.getElementById('rr-label-toggle');
         const lblFields = document.getElementById('rr-label-fields');
@@ -270,10 +279,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const buildSummary = () => {
             const g = (nm) => { const f = rform.elements[nm]; return f ? f.value : ''; };
             const addons = [];
-            [['addon_engineer', 'Engineer'], ['addon_chef', 'Chef'], ['addon_catering', 'Catering'], ['addon_photo', 'Photo wall'], ['addon_transfer', 'Transfers']]
+            [['addon_engineer', 'Engineer'], ['addon_chef', 'Chef'], ['addon_catering', 'Catering']]
                 .forEach(([nm, label]) => { if (rform.elements[nm] && rform.elements[nm].checked) addons.push(label); });
             const rows = [
-                ['Reservation', g('session_type')],
+                ['Here to', g('purpose')],
+                ['Duration', g('duration')],
                 (roomGroup.style.display !== 'none' && g('room')) ? ['Room', g('room')] : null,
                 ['Dates', g('start_date') + (g('end_date') ? ' → ' + g('end_date') : '')],
                 ['Days / Guests', g('days') + ' day(s) · ' + g('guests') + ' guest(s)'],

@@ -617,6 +617,9 @@ img { max-width: 100%; display: block; }
 .rr-success-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--gold); color: var(--black); display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; }
 .rr-success h3 { font-family: var(--font-display); font-size: 1.6rem; color: var(--cream); margin-bottom: 12px; }
 .rr-success p { color: var(--silver); font-weight: 300; }
+.rr-success-note { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 0.85rem; color: var(--gray) !important; }
+.rr-success-note strong { color: var(--cream); }
+.rr-success-note a { color: var(--gold); }
 @media (max-width: 600px) { .rr-row { grid-template-columns: 1fr; } .rr-steplabel { display: none; } }
 
 /* Footer */
