@@ -160,6 +160,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!mq.matches) play();
     });
 
+    /* Tabs */
+    document.querySelectorAll('.tabs').forEach((tabs) => {
+        const root = tabs.closest('section') || document;
+        const btns = Array.from(tabs.querySelectorAll('.tab'));
+        btns.forEach((b) => b.addEventListener('click', () => {
+            btns.forEach((x) => x.classList.toggle('active', x === b));
+            const t = b.dataset.tab;
+            root.querySelectorAll('.tab-panel').forEach((p) => p.classList.toggle('active', p.id === 'panel-' + t));
+        }));
+    });
+
     /* Crossfade media (split sections) */
     document.querySelectorAll('.media-fade').forEach((mf) => {
         const imgs = Array.from(mf.querySelectorAll('img'));
