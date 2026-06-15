@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const buildSummary = () => {
             const g = (nm) => { const f = rform.elements[nm]; return f ? f.value : ''; };
             const addons = [];
-            [['addon_engineer', 'Engineer'], ['addon_chef', 'Chef'], ['addon_catering', 'Catering']]
+            [['addon_engineer', 'Engineer'], ['addon_chef', 'Chef'], ['addon_catering', 'Catering'], ['addon_photographer', 'Photographer']]
                 .forEach(([nm, label]) => { if (rform.elements[nm] && rform.elements[nm].checked) addons.push(label); });
             const rows = [
                 ['Here to', g('purpose')],
