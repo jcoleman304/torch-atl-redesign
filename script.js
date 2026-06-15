@@ -256,13 +256,16 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         const eventHours = document.getElementById('rr-event-hours');
         if (rrPurpose) {
+            const durationGroup = document.getElementById('rr-duration-group');
             const onPurpose = () => {
-                if (roomGroup) roomGroup.style.display = (rrPurpose.value === 'Record / Write') ? '' : 'none';
+                const p = rrPurpose.value;
+                const hourly = p === 'Host an Event' || p === 'Shoot (Photo / Video)';
+                if (roomGroup) roomGroup.style.display = (p === 'Record / Write') ? '' : 'none';
+                // hourly bookings (events, shoots) use an Hours field, not a day-count
+                if (durationGroup) durationGroup.style.display = hourly ? 'none' : '';
+                if (hourly && rrDuration) rrDuration.value = 'Single Day';
                 if (eventHours) {
-                    const p = rrPurpose.value;
-                    const needsHours = p === 'Host an Event' || p === 'Shoot (Photo / Video)';
-                    eventHours.style.display = needsHours ? '' : 'none';
-                    if (needsHours && rrDuration && !rrDuration.value) rrDuration.value = 'Single Day';
+                    eventHours.style.display = hourly ? '' : 'none';
                     const lbl = eventHours.querySelector('label');
                     const inp = eventHours.querySelector('input');
                     if (p === 'Shoot (Photo / Video)') { if (lbl) lbl.textContent = 'Shoot Length / Hours'; if (inp) inp.placeholder = 'e.g. 4 hours, or 10 AM – 4 PM'; }
@@ -296,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .forEach(([nm, label]) => { if (rform.elements[nm] && rform.elements[nm].checked) addons.push(label); });
             const rows = [
                 ['Here to', g('purpose')],
-                ['Duration', g('duration')],
+                (g('purpose') === 'Host an Event' || g('purpose') === 'Shoot (Photo / Video)') ? null : ['Duration', g('duration')],
                 g('event_hours') ? ['Hours', g('event_hours')] : null,
                 (roomGroup.style.display !== 'none' && g('room')) ? ['Room', g('room')] : null,
                 ['Dates', g('start_date') + (g('end_date') ? ' → ' + g('end_date') : '')],
