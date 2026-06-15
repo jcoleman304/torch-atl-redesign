@@ -164,12 +164,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.media-fade').forEach((mf) => {
         const imgs = Array.from(mf.querySelectorAll('img'));
         if (imgs.length < 2) return;
-        let i = 0;
-        setInterval(() => {
+        let i = 0, timer = null;
+        const show = (n) => {
             imgs[i].classList.remove('is-active');
-            i = (i + 1) % imgs.length;
+            i = (n + imgs.length) % imgs.length;
             imgs[i].classList.add('is-active');
-        }, 5000);
+        };
+        const start = () => { timer = setInterval(() => show(i + 1), 5000); };
+        const restart = () => { clearInterval(timer); start(); };
+        const container = mf.closest('.split-media') || mf.parentElement;
+        const prev = container ? container.querySelector('.media-prev') : null;
+        const next = container ? container.querySelector('.media-next') : null;
+        if (prev) prev.addEventListener('click', (e) => { e.preventDefault(); show(i - 1); restart(); });
+        if (next) next.addEventListener('click', (e) => { e.preventDefault(); show(i + 1); restart(); });
+        start();
     });
 
     /* Lightbox for gallery / photo grids / mosaic */
