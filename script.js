@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return ok;
         };
         if (rrType && roomGroup) {
-            const updRoom = () => { roomGroup.style.display = /Half-Day|Full-Day/.test(rrType.value) ? '' : 'none'; };
+            const updRoom = () => { roomGroup.style.display = /Day Session|Full Day/.test(rrType.value) ? '' : 'none'; };
             rrType.addEventListener('change', updRoom); updRoom();
         }
         const lblToggle = document.getElementById('rr-label-toggle');
